@@ -4,6 +4,8 @@ Run `npm install` to install project dependencies, then run `npm start` to start
 
 Navigate to http://localhost:3000 to view the project.
 
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/pqina/pintura-example-nextjs)
+
 ### License
 
 This projects uses a test version of Pintura. This version of Pintura will show a watermark in the editor and on generated images.
