@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "name": "pintura-example-nextjs",
+  "version": "0.0.0",
+  "author": "Rik Schennink at PQINA",
+  "license": "https://pqina.nl/pintura/license/",
+  "homepage": "https://pqina.nl/pintura/",
+  "description": "A Pintura React example Project",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build ",
+    "start": "next build && next start"
+  },
+  "dependencies": {
+    "@pqina/filepond-plugin-image-editor": "8.x",
+    "@pqina/pintura": "^8.x",
+    "@pqina/react-pintura": "^9.x",
+    "next": "^13",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
