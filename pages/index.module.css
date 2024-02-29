@@ -1,0 +1,12 @@
+/* bright / dark mode */
+.index :global .pintura-editor {
+  --color-background: 255, 255, 255;
+  --color-foreground: 10, 10, 10;
+}
+
+@media (prefers-color-scheme: dark) {
+  .index :global .pintura-editor {
+    --color-background: 10, 10, 10;
+    --color-foreground: 255, 255, 255;
+  }
+}
