@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 // react-pintura
-import { PinturaEditor } from "@pqina/react-pintura";
+import { PinturaEditorModal } from "@pqina/react-pintura";
 
 // pintura
 import { pintura } from "@pqina/pintura/pintura.module.css";
 import { index as pinturaTheme } from "./index.module.css";
-
 import {
   // editor
+  locale_en_gb,
   createDefaultImageReader,
   createDefaultImageWriter,
   createDefaultShapePreprocessor,
@@ -16,22 +16,18 @@ import {
   // plugins
   setPlugins,
   plugin_crop,
+  plugin_crop_locale_en_gb,
   plugin_finetune,
+  plugin_finetune_locale_en_gb,
   plugin_finetune_defaults,
   plugin_filter,
+  plugin_filter_locale_en_gb,
   plugin_filter_defaults,
   plugin_annotate,
+  plugin_annotate_locale_en_gb,
   markup_editor_defaults,
+  markup_editor_locale_en_gb,
 } from "@pqina/pintura";
-
-import {
-  LocaleCore,
-  LocaleCrop,
-  LocaleFinetune,
-  LocaleFilter,
-  LocaleAnnotate,
-  LocaleMarkupEditor,
-} from "@pqina/pintura/locale/en_GB";
 
 setPlugins(plugin_crop, plugin_finetune, plugin_filter, plugin_annotate);
 
@@ -44,33 +40,37 @@ const editorDefaults = {
   ...plugin_filter_defaults,
   ...markup_editor_defaults,
   locale: {
-    ...LocaleCore,
-    ...LocaleCrop,
-    ...LocaleFinetune,
-    ...LocaleFilter,
-    ...LocaleAnnotate,
-    ...LocaleMarkupEditor,
+    ...locale_en_gb,
+    ...plugin_crop_locale_en_gb,
+    ...plugin_finetune_locale_en_gb,
+    ...plugin_filter_locale_en_gb,
+    ...plugin_annotate_locale_en_gb,
+    ...markup_editor_locale_en_gb,
   },
 };
 
-export default function Example() {
-  // inline
+export default function ExampleModal() {
+  // modal
+  const [visible, setVisible] = useState(false);
   const [result, setResult] = useState("");
 
   return (
     <div>
-      <h2>Example</h2>
+      <h2>Modal</h2>
 
-      <div style={{ height: "70vh" }}>
-        <PinturaEditor
+      <p>
+        <button onClick={() => setVisible(true)}>Open editor</button>
+      </p>
+      {visible && (
+        <PinturaEditorModal
           {...editorDefaults}
           className={`${pintura} ${pinturaTheme}`}
           src={"./image.jpeg"}
-          onLoad={(res) => console.log("load image", res)}
+          onLoad={(res) => console.log("load modal image", res)}
+          onHide={() => setVisible(false)}
           onProcess={({ dest }) => setResult(URL.createObjectURL(dest))}
         />
-      </div>
-
+      )}
       {!!result.length && (
         <p>
           <img src={result} alt="" />
