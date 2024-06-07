@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@pqina/filepond-plugin-image-editor": "^9.x",
-    "@pqina/pintura": "^8.82.4",
+    "@pqina/pintura": "^8.x",
     "@pqina/react-pintura": "^9.x",
     "filepond": "^4.31.1",
     "filepond-plugin-file-poster": "^2.5.1",
