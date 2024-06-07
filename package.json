@@ -12,7 +12,7 @@
     "start": "next build && next start"
   },
   "dependencies": {
-    "@pqina/filepond-plugin-image-editor": "^8.57.8",
+    "@pqina/filepond-plugin-image-editor": "^9.x",
     "@pqina/pintura": "^8.x",
     "@pqina/react-pintura": "^9.x",
     "filepond": "^4.31.1",
