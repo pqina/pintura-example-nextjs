@@ -8,8 +8,8 @@ import { pintura } from "@pqina/pintura/pintura.module.css";
 import { index as pinturaTheme } from "./index.module.css";
 import { getEditorDefaults } from "@pqina/pintura";
 
-/*
 // Import Pintura Video extension dependencies
+/*
 import {
   setPlugins,
   createDefaultImageWriter,
@@ -17,17 +17,21 @@ import {
   imageStateToCanvas,
 } from "@pqina/pintura";
 
+// Install @pqina/pintura-video module, `npm i @pqina/pintura-video` (needs .npmrc and PQINA PRIVATE NPM KEY)
 import "@pqina/pintura-video/pinturavideo.css";
 import {
   plugin_trim_locale_en_gb,
   plugin_trim,
   createDefaultVideoWriter,
   createMediaStreamEncoder,
+  createMuxerEncoder,
 } from "@pqina/pintura-video";
+
+// Install mp4-muxer module, `npm i mp4-muxer`
+import * as Mp4Muxer from "mp4-muxer";
 
 // Load the Trim plugin view
 setPlugins(plugin_trim);
-
 */
 
 // get default properties
@@ -48,7 +52,26 @@ const editorDefaults = getEditorDefaults({
       // For handling images
       createDefaultImageWriter(),
 
-      // For handling videos
+      // If possible use muxer to encode videos
+      createDefaultVideoWriter({
+          encoder: createMuxerEncoder({
+            // when using the mp4 muxer we need to set video/mp4 mimetype
+            muxer: Mp4Muxer,
+            mimeType: "video/mp4",
+
+            // video and audio bitrate to use (optional)
+            videoBitrate: 2500000, // 2.5MBps
+            audioBitrate: 192000, // 192KBps, should be either (96000, 128000, 160000, or 192000)
+
+            // this draws the image
+            imageStateToCanvas,
+
+            // enable logging
+            log: true,
+          }),
+        }),
+
+      // Use MediaStream encoder as fallback
       createDefaultVideoWriter({
         // Video writer instructions here
         // ...
@@ -56,6 +79,13 @@ const editorDefaults = getEditorDefaults({
         // Encoder to use
         encoder: createMediaStreamEncoder({
           imageStateToCanvas,
+
+          // video and audio bitrate to use (optional)
+          videoBitrate: 2500000, // 2.5MBps
+          audioBitrate: 192000, // 192KBps
+
+          // enable logging
+          log: true,
         }),
       }),
     ]
@@ -91,13 +121,15 @@ export default function Example() {
           stickers={["😎"]}
           imageCropAspectRatio={1}
           onLoad={(res) => console.log("load media", res)}
+          onLoaderror={console.error}
           onProcess={({ dest }) => dest && setResult(URL.createObjectURL(dest))}
+          onProcesserror={console.error}
         />
       </div>
 
       {!!result.length && (
         <p>
-          <video src={result} />
+          <video src={result} controls />
         </p>
       )}
     </div>
